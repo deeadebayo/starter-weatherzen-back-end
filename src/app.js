@@ -1,16 +1,19 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express')
+const cors = require('cors')
+const observationsRouter = require('./observations/observations.router')
+const logger = require('./config/logger')
 
-const errorHandler = require("./errors/errorHandler");
-const notFound = require("./errors/notFound");
+const errorHandler = require('./errors/errorHandler')
+const notFound = require('./errors/notFound')
 
-const app = express();
+const app = express()
 
+app.use(logger)
 app.use(cors())
-app.use(express.json());
+app.use(express.json())
 
+app.use('/observations', observationsRouter)
+app.use(notFound)
+app.use(errorHandler)
 
-app.use(notFound);
-app.use(errorHandler);
-
-module.exports = app;
+module.exports = app
